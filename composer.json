@@ -1,0 +1,6 @@
+{
+    "name": "marlon-be/zend-framework",
+    "autoload": {
+        "classmap": "library/"
+    }
+}
