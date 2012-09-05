@@ -2,8 +2,62 @@ Welcome to the Zend Framework 1.11 Release!
 
 RELEASE INFORMATION
 ---------------
-Zend Framework 1.11.11 Release (r24485).
-Released on September 29, 2011.
+Zend Framework 1.11.14 Release (r25048).
+Released on August 27, 2012.
+
+RELEASE NOTES
+-------------
+
+1.11.14 simply fixes a malformed class file in the Zend_Feed component
+as released in 1.11.13.
+
+SECURITY NOTICE FOR 1.11.13
+---------------------------
+
+Several components were found to contain additional XML eXternal Entity
+(XXE) injection vulnerabilities (in addition to the XML-RPC component
+patched in 1.11.12). Additionally, we identified several potential XML
+Entity Expansion (XEE) vectors. XEE attacks occur when the XML doctype
+declaration contains XML entity definitions; these attacks usually result
+in recursion, which consumes CPU and memory resources, making Denial of
+Service (DoS) attacks easier to implement.
+
+The patches in 1.11.13 close both XXE and XEE vulnerabilities found in
+the framework. The former are mitigated by ensuring
+libxml_disable_entity_loader is called before any SimpleXML calls are
+executed; the latter are mitigated by looping through the DOMDocument
+instance and checking for XML_DOCUMENT_TYPE_NODE children, raising an
+exception if any are found (in cases where SimpleXML is used, loading
+the XML via DOMDocument first, and then passing the object to
+simplexml_import_dom). 
+
+The following components were patched:
+
+ - Zend_Dom
+ - Zend_Feed
+ - Zend_Soap
+ - Zend_XmlRpc
+
+Thanks goes to Pádraic Brady for identifying and patching these vectors.
+
+SECURITY NOTICE FOR 1.11.12
+---------------------------
+
+This release includes patches to each of the Request and Response
+objects within Zend_XmlRpc. These objects were found to be vulnerable to
+XML eXternal Entity Injection attacks due to insecure usage of the
+SimpleXMLElement class (SimpleXML PHP extension).  External entities
+could be specified by adding a specific DOCTYPE element to XML-RPC
+requests; exploiting this vulnerability could coerce opening arbitrary
+files and/or TCP connections.
+
+The patch in 1.11.12 ensures libxml_disable_entity_loader() is called
+before any SimpleXML calls are executed, thus removing the
+vulnerability.
+
+Thanks goes to Johannes Greil and Kestutis Gudinavicius of SEC-Consult
+for reporting the vulnerability and working with us to provide a working
+solution.
 
 SECURITY NOTICE FOR 1.11.6
 --------------------------
