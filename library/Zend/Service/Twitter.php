@@ -17,7 +17,7 @@
  * @subpackage Twitter
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Twitter.php 24594 2012-01-05 21:27:01Z matthew $
+ * @version    $Id: Twitter.php 25267 2013-02-25 17:03:45Z rob $
  */
 
 /**
@@ -58,7 +58,7 @@ class Zend_Service_Twitter extends Zend_Rest_Client
     /**
      * OAuth Endpoint
      */
-    const OAUTH_BASE_URI = 'http://twitter.com/oauth';
+    const OAUTH_BASE_URI = 'https://api.twitter.com/oauth';
 
     /**
      * @var Zend_Http_CookieJar
@@ -130,7 +130,7 @@ class Zend_Service_Twitter extends Zend_Rest_Client
      */
     public function __construct($options = null, Zend_Oauth_Consumer $consumer = null)
     {
-        $this->setUri('http://api.twitter.com');
+        $this->setUri('https://api.twitter.com');
         if ($options instanceof Zend_Config) {
             $options = $options->toArray();
         }
