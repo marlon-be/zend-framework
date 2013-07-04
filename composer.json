@@ -1,6 +1,8 @@
 {
     "name": "marlon-be/zend-framework",
     "autoload": {
-        "classmap": ["library/"]
+        "psr-0": {
+            "Zend_" : "library/"
+        }
     }
 }
