@@ -168,6 +168,23 @@ class Zend_Filter_PregReplace implements Zend_Filter_Interface
             throw new Zend_Filter_Exception(get_class($this) . ' does not have a valid MatchPattern set.');
         }
 
+        $pattern = is_array($this->_matchPattern)?implode(' ',$this->_matchPattern):$this->_matchPattern;
+        if ( strpos($pattern,'#e') > -1 ) {
+            foreach ( $this->_matchPattern as $index => $pattern ) {
+                $replacement = $this->_replacement[$index];
+                if ( strpos($pattern,'#e') > -1 ) {
+                    $pattern = str_replace('#e','#',$pattern);
+                    $replacement = function($m) use ($replacement) {
+                        $replacement = str_replace('(\'\\', '($m[', $replacement);
+                        $replacement = str_replace('\')', '])', $replacement);
+                        return eval('return '.$replacement.';');
+                    };
+                }
+                $value = preg_replace_callback($pattern, $replacement, $value);
+            }
+            return $value;
+        }
+
         return preg_replace($this->_matchPattern, $this->_replacement, $value);
     }
 
