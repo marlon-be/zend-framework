@@ -781,7 +781,8 @@ class Zend_Locale_Format
         $result['locale'] = $options['locale']; // save the locale used to normalize $number (convenience)
 
         $oenc = iconv_get_encoding('internal_encoding');
-        iconv_set_encoding('internal_encoding', 'UTF-8');
+        @ini_set('iconv.internal_encoding', 'UTF-8');
+        @iconv_set_encoding('internal_encoding', 'UTF-8');
         $day   = iconv_strpos($format, 'd');
         $month = iconv_strpos($format, 'M');
         $year  = iconv_strpos($format, 'y');
@@ -1047,7 +1048,8 @@ class Zend_Locale_Format
             }
         }
 
-        iconv_set_encoding('internal_encoding', $oenc);
+        @ini_set('iconv.internal_encoding', $oenc);
+        @iconv_set_encoding('internal_encoding', $oenc);
         return $result;
     }
 
